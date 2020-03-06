@@ -1,8 +1,7 @@
-// https://www.hackerrank.com/challenges/contacts/problem?isFullScreen=true
-
-// working on building the suggestions
-
 'use strict';
+
+// STATUS: insert will create a structure that seems to be close to what I want.
+
 
 const fs = require('fs');
 
@@ -48,17 +47,13 @@ class Trie {
         let curr = this.root
         for(let i = 0; i < sentence.length; i++) {
             const convertedToInt = sentence.charCodeAt(i) - 97
-            console.log("char: " + sentence.charAt(i))
-            if(!curr) {
-                var nodeInTrie = new Node
-                nodeInTrie.letters[convertedToInt] = nodeInTrie
+            if(!curr.letters[convertedToInt]) {
+                curr.letters[convertedToInt] =  new Node
             } else {
-                const c = sentence.charAt(i)
                 curr.score++
             }
-            curr = nodeInTrie
+            curr = curr.letters[convertedToInt]
         }
-        console.log("-----------------")
     }
 
     traverse(sentence="") {
@@ -66,18 +61,20 @@ class Trie {
         let prev = curr
         let i = 0
         let accum = []
-        while(curr !== null && !Number.isNaN(sentence.charCodeAt(i))) {
+        while(curr !== null && sentence.charAt(i)) {
             let letter = sentence.charCodeAt(i) - 97
             accum.push(letter)
+            // console.log(curr)
             prev = curr
             curr = curr.letters[letter]
             i++
+            // console.log(curr)
         }
         // console.log(accum)
         return {
             accum,
             curr,
-            // prev
+            prev
         }
     }
 
@@ -119,16 +116,17 @@ function contacts(queries) {
         queries[0][1], 
         queries[1][1]
     ])
-    const { accum, curr } = t.traverse("ha")
+    const { accum, curr, prev } = t.traverse("ha")
     const v = t.processPaths(accum, curr)
-    // console.log(
-    //     v.map(([{i, height, score}]) => {
-    //         const char = String.fromCharCode(i + 97)
-    //         console.log("score: " + score)
-    //         return Array(score).fill(char, 0, score)
-    //     })
+    // console.log(prev)
+    console.log(
+        // v.map(([{i, height, score}]) => {
+        //     const char = String.fromCharCode(i + 97)
+        //     console.log("score: " + score)
+        //     return Array(score).fill(char, 0, score)
+        // })
         
-    // )
+    )
     return [2]
 }
 
