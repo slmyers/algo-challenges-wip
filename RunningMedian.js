@@ -1,5 +1,43 @@
 // https://www.hackerrank.com/challenges/find-the-running-median/problem
 
+// super dumb version
+
+// I think it O(n * m * log(m))?
+// native sort is quicksort so m * log(m)
+// there are n elements
+// so O(n * m * log(m))
+
+function computeMedian(values) {
+    if (values.length === 0) return 0
+
+    const half = Math.floor(values.length / 2);
+
+    if (values.length % 2)
+        return values[half];
+
+    return (values[half - 1] + values[half]) / 2.0;
+}
+
+function runningMedian(a) {
+    let result = []
+    let current = []
+    /*
+     * Write your code here.
+     */
+    while(a.length) {
+        current.push(a.shift())
+        result.push(Number(computeMedian(current)).toFixed(1))
+    }
+    return result
+}
+
+// end super dumb
+
+
+
+
+
+
 'use strict';
 
 const fs = require('fs');
