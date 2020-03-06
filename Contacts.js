@@ -1,7 +1,18 @@
 'use strict';
 
-// STATUS: insert will create a structure that seems to be close to what I want.
+// input 'ha' provides two hits for [c] but only one for [k],
+// so the sugestions would be ha<c> and hac<kerrank>
 
+/*
+[ [ 'c', 'c' ],
+  [ 'k' ],
+  [ 'e' ],
+  [ 'r' ],
+  [ 'r' ],
+  [ 'a' ],
+  [ 'n' ],
+  [ 'k' ] ]
+*/
 
 const fs = require('fs');
 
@@ -47,11 +58,27 @@ class Trie {
         let curr = this.root
         for(let i = 0; i < sentence.length; i++) {
             const convertedToInt = sentence.charCodeAt(i) - 97
+
             if(!curr.letters[convertedToInt]) {
                 curr.letters[convertedToInt] =  new Node
             } else {
+                // console.log("====")
+                // console.log(curr.score)
                 curr.score++
+                // console.log(curr.score)
+                // console.log("====")
             }
+            // let _c = sentence.charAt(i)
+            // if(
+            //     _c === "h" || 
+            //     _c === "a" ||
+            //     _c === "c" ||
+            //     _c === "k"
+            // ) {
+            //     console.log(curr)
+            //     console.log("++++")
+            // }
+
             curr = curr.letters[convertedToInt]
         }
     }
@@ -94,10 +121,8 @@ class Trie {
                         ...col,
                         height: curr.height + 1
                     })
-                    if (!Array.isArray(result[curr.height])){
-                        result[curr.height] = []
-                    }
-                    result[curr.height].push({i, ...col, height: curr.height + 1})
+                    if(!result[curr.height]) result[curr.height] = []
+                    result[curr.height].push({...col, i, height: curr.height + 1})
                 }
             }
         }
@@ -118,15 +143,17 @@ function contacts(queries) {
     ])
     const { accum, curr, prev } = t.traverse("ha")
     const v = t.processPaths(accum, curr)
-    // console.log(prev)
-    console.log(
-        // v.map(([{i, height, score}]) => {
-        //     const char = String.fromCharCode(i + 97)
-        //     console.log("score: " + score)
-        //     return Array(score).fill(char, 0, score)
-        // })
+    console.log(curr.letters)
+    console.log(curr.letters[2])
+    // console.log(
+    //     v.map(([{i, height, score}, other]) => {
+    //         const char = String.fromCharCode(i + 97)
+    //         console.log("score: " + score)
+    //         if(other) console.log(other)
+    //         return Array(score).fill(char, 0, score)
+    //     })
         
-    )
+    // )
     return [2]
 }
 
