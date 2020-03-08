@@ -1,8 +1,3 @@
-// https://www.hackerrank.com/challenges/swap-nodes-algo/problem?isFullScreen=true
-
-// solves only case#0 :sad_panda:
-
-
 'use strict';
 
 const fs = require('fs');
@@ -70,17 +65,14 @@ function performSwap(root, k) {
             stack.push(curr.right)
         }
 
-        if (
-            curr.depth % k === 0 && 
-            (curr.left !== null || curr.right !== null)
-        ) {
+        if (curr.left) {
+            stack.push(curr.left)
+        }
+
+        if (curr.depth % k === 0) {
             const temp = curr.left
             curr.left = curr.right
             curr.right = temp
-        }
-
-        if (curr.left) {
-            stack.push(curr.left)
         }
     }
     return root
