@@ -33,8 +33,10 @@ var minWindow = function(s, t) {
             mappedT.set(c, 0)
         }
         mappedT.set(c, mappedT.get(c) + 1)
-        required++
     }
+
+    required = mappedT.size
+
 
     let left, right, formed, result;
     left = right = formed = 0;
@@ -50,9 +52,10 @@ var minWindow = function(s, t) {
         }
 
         if (mappedT.has(c) && window.get(c) === mappedT.get(c)) {
-            formed++;
+            formed += 1;
         }
-        console.log({ formed, required, c })
+
+        
         while(left <= right && formed === required) {
             const lc = s.charAt(left)
             const { length } = result;
@@ -79,8 +82,7 @@ var minWindow = function(s, t) {
 
 const assert = require('assert')
 
-// assert.equal(minWindow("ADOBECODEBANC", "ABC"), "BANC")
-// assert.equal(minWindow("a", "a"), "a")
-// assert.equal(minWindow("a", "aa"), "")
-// TODO: this fails
+assert.equal(minWindow("ADOBECODEBANC", "ABC"), "BANC")
+assert.equal(minWindow("a", "a"), "a")
+assert.equal(minWindow("a", "aa"), "")
 assert.equal(minWindow("aa", "aa"), "aa")
